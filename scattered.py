@@ -6,27 +6,31 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
-
-
+from modules.params import get_param
 
 
 #------------------------------#
 # Variables
 #------------------------------#
 
+# Directory paths
+directory = get_param.ask("Directory", "../Output/Scattered/")
+filename = directory + get_param.ask("Filename", "scattered")
+
 # Set the type (Qphi or Uphi)
-image_type = "Qphi"
+image_type = get_param.ask("Type", "Qphi", ["Qphi", "Uphi"])
 
 # Set the scale (log or lin)
-image_scale = "log"
+image_scale = get_param.ask("Scale", "log", ["lin", "log"])
+
+# Set the FWHM
+image_scale = get_param.ask("FWHM", 0.05)
+
+# Add stars or not
+image_plotstars = get_param.ask("Plot Stars", True, [True, False])
 
 # Add color bar or not
-image_colorbar = False
-
-# Directory paths
-directory = "../Output/Scattered/"
-filename = directory + "scattered.pdf"
-
+image_colorbar = get_param.ask("Color Bar", False, [True, False])
 
 
 #------------------------------#
@@ -37,7 +41,7 @@ filename = directory + "scattered.pdf"
 fig, axes = plt.subplots()
 
 # Get the MCFOST data
-mod_cont = mcfost.Image(directory + "")
+mod_cont = mcfost.Image(directory)
 
 
 
