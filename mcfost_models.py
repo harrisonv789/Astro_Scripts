@@ -1,7 +1,10 @@
+#!/usr/bin/python3
+
 from matplotlib.patches import Circle
 from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
 import numpy as np
+import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
 
 
@@ -14,14 +17,14 @@ from modules.colorbar_utils import colorbar2, shift_axes
 name = "Soft_0.1Mdisc"
 
 # Path to the DSHARP data
-dir = "/Users/harrisonverrios/Documents/Uni/PHS3350/Output/Soft/MCFOST_data/{}".format(name)
+dir = "../Output/Soft/MCFOST_data/{}/".format(name)
 
 # Model directories
 mod_dir_basename = dir
 
 # Name of the output PDF file
 #filename = "plots/Report{}.pdf".format(name)
-filename = "test{}.pdf".format(name)
+filename = "{}.pdf".format(name)
 #------------------------------#
 
 
