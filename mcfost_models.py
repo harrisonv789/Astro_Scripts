@@ -2,7 +2,6 @@ from matplotlib.patches import Circle
 from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
 import numpy as np
-import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
 
 
@@ -12,10 +11,10 @@ from modules.colorbar_utils import colorbar2, shift_axes
 # Directory Information
 #------------------------------#
 # Simulation name
-name = "MCFOST_data"
+name = "Soft_0.1Mdisc"
 
 # Path to the DSHARP data
-dir = "/Users/harrisonverrios/Documents/Uni/PHS3350/Output/Soft/{}/".format(name)
+dir = "/Users/harrisonverrios/Documents/Uni/PHS3350/Output/Soft/MCFOST_data/{}".format(name)
 
 # Model directories
 mod_dir_basename = dir
@@ -72,12 +71,12 @@ s_shift = [0, 0]
 #------------------------------#
 
 # The model names
-models = ["Hard", "Soft"]
+models = ["1", "2", "3", "5", "7", "10"]
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0
 # MAKE SURE THE SIZE OF THIS ARRAY IS THE SAME AS MODELS
-p_masses = [5.0, 5.0]
+p_masses = [1.0, 2.0, 3.0, 5.0, 7.0, 10.0]
 
 # Velocity channels
 v_channels = [-0.40, -1.45, -1.80, 1.35]
