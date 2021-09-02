@@ -4,47 +4,54 @@ from matplotlib.patches import Circle
 from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
 import numpy as np
-import pymcfost as mcfost
-from modules.colorbar_utils import colorbar2, shift_axes
-from modules.params import get_param
+import sys
+from modules.params.get_param import Params
 
 
 #------------------------------#
 # Variables
 #------------------------------#
 
+# Look for using default flags (uses all default values)
+params = Params(len(sys.argv) > 1 and sys.argv[1].lower() == "-defaults")
+
 # Directory paths
-directory = get_param.ask("Directory", "../Output/Scattered/")
-filename = directory + get_param.ask("Filename", "scattered")
+directory = params.ask("Directory", "../Output/Scattered/")
+filename = directory + params.ask("Filename", "scattered")
 
 # Set the type (Qphi or Uphi)
-image_type = get_param.ask("Type", "Qphi", ["Qphi", "Uphi"])
+image_type = params.ask("Type", "PI", ["PI", "Qphi", "Uphi"])
 
 # Set the scale (log or lin)
-image_scale = get_param.ask("Scale", "log", ["lin", "log"])
+image_scale = params.ask("Scale", "log", ["lin", "log"])
 
 # Set the FWHM
-image_scale = get_param.ask("FWHM", 0.05)
+image_FWHM = params.ask("FWHM", 0.05)
+
+# Set the min and max
+image_vmin = params.ask("Min Flux", 1e-22)
+image_vmax = params.ask("Max Flux", 1e-18)
 
 # Add stars or not
-image_plotstars = get_param.ask("Plot Stars", True, [True, False])
+image_plotstars = params.ask("Plot Stars", True, [True, False])
 
-# Add color bar or not
-image_colorbar = get_param.ask("Color Bar", False, [True, False])
+# Add a new line
+print("\n---\n")
+
 
 
 #------------------------------#
 # Creating Plots
 #------------------------------#
 
+# Import PyMCFOST
+import pymcfost as mcfost
+
 # Create the axes
 fig, axes = plt.subplots()
 
 # Get the MCFOST data
 mod_cont = mcfost.Image(directory)
-
-
-
 
 # Create the image
 image = mod_cont.plot(
@@ -53,13 +60,10 @@ image = mod_cont.plot(
     scale = image_scale,
     plot_stars = True,
     type = image_type,
-    psf_FWHM=0.05
+    psf_FWHM=image_FWHM,
+    vmin = image_vmin,
+    vmax = image_vmax
 )
-
-# Add the colour bar
-if image_colorbar:
-    colorbar2(image)
-
 
 
 #------------------------------#

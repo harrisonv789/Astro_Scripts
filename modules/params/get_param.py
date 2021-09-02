@@ -1,3 +1,4 @@
+# Set of colors that can be used for printing on Terminal
 class col:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -10,34 +11,47 @@ class col:
     UNDERLINE = '\033[4m'
 
 
-# Asks the user for a value and performs some checking on the input
-def ask (name, default, values=[]):
-    
-    # Ask the user for a value
-    val = input("\nEnter a value for %s%s%s [default = %s%s%s]: " % \
-        (col.OKGREEN, name, col.ENDC, col.OKCYAN, str(default), col.ENDC))
+# Class that defines getting the parameters
+class Params:
 
-    # Determine the output based on type
-    if val == "":
-        output = default
-    elif val.lower() in ("true", "false"):
-        output = val.lower() == "true"
-    elif type(default) is type(int):
-        output = int(val)
-    elif type(default) is type(float):
-        output = float(val)
-    else:
-        output = val
+    # Initialiser takes in a parameter on whether to use defaults at all
+    def __init__(self, defaults = False):
+        self.use_defaults = defaults
 
-    # Make sure value in values
-    if len(values) > 0 and val != "":
-        # If invalid value, then use the default
-        if output not in values:
-            print("Invalid input. Possible values are %s%s%s." % (col.OKCYAN, values, col.ENDC))
+
+    # Asks the user for a value and performs some checking on the input
+    def ask (self, name, default, values=[]):
+
+        # Check for using default values
+        if self.use_defaults:
+            val = ""
+
+        # Ask the user for a value
+        else:
+            val = input("\nEnter a value for %s%s%s [default = %s%s%s]: " % \
+                (col.OKGREEN, name, col.ENDC, col.OKCYAN, str(default), col.ENDC))
+
+        # Determine the output based on type
+        if val == "":
             output = default
+        elif val.lower() in ("true", "false"):
+            output = val.lower() == "true"
+        elif type(default) is int:
+            output = int(val)
+        elif type(default) is float:
+            output = float(val)
+        else:
+            output = val
 
-    # Print the selected value
-    print("Selected %s%s%s." % (col.OKCYAN, output, col.ENDC))
+        # Make sure value in values
+        if len(values) > 0 and val != "":
+            # If invalid value, then use the default
+            if output not in values:
+                print("Invalid input. Possible values are %s%s%s." % (col.OKCYAN, values, col.ENDC))
+                output = default
 
-    # Return the parameter
-    return output
+        # Print the selected value
+        print("Selected %s%s%s for %s%s%s." % (col.OKCYAN, output, col.ENDC, col.OKGREEN, name, col.ENDC))
+
+        # Return the parameter
+        return output
