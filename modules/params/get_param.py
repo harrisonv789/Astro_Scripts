@@ -15,8 +15,22 @@ class col:
 class Params:
 
     # Initialiser takes in a parameter on whether to use defaults at all
-    def __init__(self, defaults = False):
-        self.use_defaults = defaults
+    def __init__(self, *args):
+        args = args[0]
+
+        # Print out a name of the script
+        print("------------------------------")
+        print(args[0][:-3].upper() + " PARAMETERS")
+        print("------------------------------")
+
+        # Set any default values
+        self.use_defaults = False
+
+        # Look for arguments
+        for arg in args:
+            if arg == "-defaults":
+                self.use_defaults = True
+        
 
 
     # Asks the user for a value and performs some checking on the input

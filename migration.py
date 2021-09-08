@@ -12,7 +12,7 @@ from modules.params.get_param import Params
 #------------------------------#
 
 # Look for using default flags (uses all default values)
-params = Params(len(sys.argv) > 1 and sys.argv[1].lower() == "-defaults")
+params = Params(sys.argv)
 
 # Directory paths
 directory = params.ask("Directory", "../Output/New_Soft/Migration/")
