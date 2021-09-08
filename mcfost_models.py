@@ -6,7 +6,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
+from modules.params.get_param import Params
+import sys
 
+
+#------------------------------#
+# Variables TODO
+#------------------------------#
+
+# Look for using default flags (uses all default values)
+params = Params(len(sys.argv) > 1 and sys.argv[1].lower() == "-defaults")
 
 
 
@@ -14,10 +23,10 @@ from modules.colorbar_utils import colorbar2, shift_axes
 # Directory Information
 #------------------------------#
 # Simulation name
-name = "Soft_0.1Mdisc"
+name = ""
 
 # Path to the DSHARP data
-dir = "../Output/Soft/MCFOST_data/{}/".format(name)
+dir = "../Output/New_Soft/MCFOST/{}/".format(name) if name != "" else "../Output/New_Soft/MCFOST/"
 
 # Model directories
 mod_dir_basename = dir
@@ -74,7 +83,7 @@ s_shift = [0, 0]
 #------------------------------#
 
 # The model names
-models = ["1", "2", "3", "5", "7", "10"]
+models = ["1", "2", "3", "5"]
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0
@@ -93,6 +102,9 @@ v_channels = [-0.40, -1.45, -1.80, 1.35]
 
 # Whether to plot continuum images or not
 include_continuum = True
+
+# Whether to plot the channels or not
+include_channels = False
 
 # The colour mapping for the observational plot
 cmap_cont = "gist_earth"
@@ -162,16 +174,28 @@ if include_observation:
     if include_continuum:
         cont =  casa.Cube(dir_observation + "RT.fits")
 
-    CO =        casa.Cube(dir_observation + "lines.fits")
+    if include_channels:
+        CO =    casa.Cube(dir_observation + "lines.fits")
 
 # Create the subplots
-fig, axes = plt.subplots(
-    nrows = n_models + int(include_observation),
-    ncols = n_channels + int(include_continuum),
-    figsize = (f_size * (n_channels + int(include_continuum)), f_size * (n_models + int(include_observation))),
-    sharex='all',
-    sharey='all'
-)
+if include_channels:
+    fig, axes = plt.subplots(
+        nrows = n_models + int(include_observation),
+        ncols = (int(include_channels) * n_channels) + int(include_continuum),
+        figsize = (f_size * ((int(include_channels) * n_channels) + int(include_continuum)), f_size * (n_models + int(include_observation))),
+        sharex='all',
+        sharey='all'
+    )
+
+# Otherwise make plots horizontal
+else:
+    fig, axes = plt.subplots(
+        nrows = 1,
+        ncols = n_models + int(include_observation),
+        figsize = (f_size * (n_models + int(include_observation)), f_size * 1),
+        sharex='all',
+        sharey='all'
+    )
 
 # Add some whitespace between them
 plt.subplots_adjust(wspace = f_spacing, hspace = f_spacing)
@@ -179,8 +203,11 @@ plt.subplots_adjust(wspace = f_spacing, hspace = f_spacing)
 # Adjust the axes for each row
 if include_continuum:
     for i in range(n_models + int(include_observation)):
-        shift_axes(axes[i,0],-0.03,0)
-        #shift_axes(axes[i,4:],0.01,0)
+        try:
+            shift_axes(axes[i,0], -0.03, 0)
+            #shift_axes(axes[i,4:],0.01,0)
+        except:
+            pass
 
 #------------------------------#
 
@@ -212,7 +239,7 @@ def CreateCircle ():
 #------------------------------#
 
 # Check for mismatched arrays
-if len(p_masses) != len(models):
+if len(p_masses) < len(models):
     raise Exception("Incorect Planet Masses Array Size. Make sure the array length is identical to the model array length.")
 
 
@@ -228,6 +255,9 @@ if include_observation:
     # If plotting continuum graphs
     if include_continuum:
 
+        # Get axis
+        axis = axes[0, 0] if include_channels else axes[0]
+
         print("Plotting Observation Continuum")
 
         # We plot the observations on the first row
@@ -235,8 +265,8 @@ if include_observation:
             colorbar = False,
             cmap = cmap_cont,
             color_scale = c_color_scale,
-            ax = axes[0,0],
-            no_xlabel = True,
+            ax = axis,
+            no_xlabel = include_channels,
             no_ylabel = False,
             limits = limits,
             shift_dx = s_shift[0],
@@ -247,58 +277,61 @@ if include_observation:
         )
 
         # Show the colour bar in the plot
-        colorbar2(image)
+        if include_channels or n_models <= 1:
+            colorbar2(image)
 
         # Add the planet and star to the plot
-        axes[0,0].plot(s_shift[0],  s_shift[1],     "*", color="white", ms=4)
-        axes[0,0].plot(p_loc[0],    p_loc[1],       "o", color="cyan",  ms=2)
+        axis.plot(s_shift[0],  s_shift[1],     "*", color="white", ms=4)
+        axis.plot(p_loc[0],    p_loc[1],       "o", color="cyan",  ms=2)
 
         # Label the planet name on the continuum plot
-        axes[0,0].text(
+        axis.text(
             0.05,
             0.9,
             obs_name,
             horizontalalignment = 'left',
             color = "white",
-            transform = axes[0,0].transAxes,
+            transform = axis.transAxes,
             fontsize = 10
         )
 
+    # If including velocity channels
+    if include_channels:
 
-    print("Plotting Observation Velocity Channels")
+        print("Plotting Observation Velocity Channels")
 
-    # Loop though all the channels
-    for i in range(n_channels):
+        # Loop though all the channels
+        for i in range(n_channels):
 
-        # Determine the current velocity for the observational data
-        iv = np.abs(CO.velocity - (v_system + v_channels[i])).argmin()
+            # Determine the current velocity for the observational data
+            iv = np.abs(CO.velocity - (v_system + v_channels[i])).argmin()
 
-        # Only show color bar in the last channel
-        show_colorbar = i == n_channels - 1
+            # Only show color bar in the last channel
+            show_colorbar = i == n_channels - 1
 
-        # Plot the velocity channel
-        vel_im = CO.plot(
-            iv = iv,  
-            v0 = v_system,
-            colorbar = False,
-            ax = axes[0, int(include_continuum) + i],
-            no_xlabel = True,
-            no_ylabel = True,
-            limits = limits,
-            shift_dx = s_shift[0],
-            shift_dy = s_shift[1],
-            Tb = c_plot_temp,
-            fmax = v_f_max,
-            fmin = v_f_min
-        )
+            # Plot the velocity channel
+            vel_im = CO.plot(
+                iv = iv,  
+                v0 = v_system,
+                colorbar = False,
+                ax = axes[0, int(include_continuum) + i],
+                no_xlabel = True,
+                no_ylabel = True,
+                limits = limits,
+                shift_dx = s_shift[0],
+                shift_dy = s_shift[1],
+                Tb = c_plot_temp,
+                fmax = v_f_max,
+                fmin = v_f_min
+            )
 
-        if show_colorbar:
-            colorbar2(vel_im)
+            if show_colorbar:
+                colorbar2(vel_im)
 
-        # Add a circle where the planet is expected to be
-        if plot_sinks:
-            circle = CreateCircle()
-            axes[0, int(include_continuum)  + i].add_artist(circle)
+            # Add a circle where the planet is expected to be
+            if plot_sinks:
+                circle = CreateCircle()
+                axes[0, int(include_continuum)  + i].add_artist(circle)
 #------------------------------#
 
 
@@ -328,15 +361,19 @@ for k, mod in enumerate(models):
     # If plotting the continuum
     if include_continuum:
 
+        # Get axis
+        axis = axes[k + int(include_observation), 0] if include_channels else axes[k + int(include_observation)]
+
         # Plot the continuum
         if include_observation and match_observation:
             image = mod_cont.plot(
-                ax = axes[k + 1, 0],
+                ax = axis,
                 colorbar = False,
                 bmaj = cont.bmaj,
                 bmin = cont.bmin,
                 bpa = cont.bpa,
-                no_xlabel = no_xlabel,
+                no_xlabel = no_xlabel and include_channels,
+                no_ylabel = not include_channels,
                 limits = limits,
                 cmap = cmap_cont,
                 scale = c_color_scale,
@@ -349,9 +386,10 @@ for k, mod in enumerate(models):
         # If no observational data to base scales on
         else:
             image = mod_cont.plot(
-                ax = axes[k + int(include_observation), 0],
+                ax = axis,
                 colorbar = False,
-                no_xlabel = no_xlabel,
+                no_xlabel = no_xlabel and include_channels,
+                no_ylabel = not include_channels,
                 limits = limits,
                 cmap = cmap_cont,
                 scale = c_color_scale,
@@ -365,15 +403,15 @@ for k, mod in enumerate(models):
         if p_masses[k] == 0:
             mod_label = models[k] + " Model"
         else:
-            mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ %s Model" % mod)
+            mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
         
-        axes[k + int(include_observation), 0].text(
+        axis.text(
             0.05,
             0.9,
             mod_label,
             horizontalalignment = 'left',
             color = "white",
-            transform = axes[k+int(include_observation),0].transAxes,
+            transform = axis.transAxes,
             fontsize = 10
         )
 
@@ -384,60 +422,64 @@ for k, mod in enumerate(models):
         #    axes[k+int(include_observation),0].plot(p_loc[0],    p_loc[1],   "o", color="cyan",  ms=2)
 
         # Show the colour bar in the plot
-        colorbar2(image)
+        if include_channels or k == n_models - 1:
+            colorbar2(image)
 
     # Set the change in velocity
     delta_v = None
 
-    # Loop through each of the channels
-    for i in range(n_channels):
+    # If including velocity channels
+    if include_channels:
 
-        # Only show color bar in the last channel
-        show_colorbar = i == n_channels - 1
+        # Loop through each of the channels
+        for i in range(n_channels):
 
-        # Plot the CO velocity channel
-        if include_observation and match_observation:
-            vel_im = mod_CO.plot_map(
-                v = v_channels[i],
-                ax = axes[k + 1, int(include_continuum) + i],
-                colorbar = False,
-                bmaj = CO.bmaj,
-                bmin = CO.bmin,
-                bpa = CO.bpa,
-                no_xlabel = no_xlabel,
-                no_ylabel = True,
-                limits = limits,
-                Tb = c_plot_temp,
-                Delta_v = delta_v,
-                fmax = v_f_max,
-                fmin = v_f_min,
-                plot_stars = plot_sinks
-            )
+            # Only show color bar in the last channel
+            show_colorbar = i == n_channels - 1
 
-        # If no observational data to base scales on
-        else:
-            vel_im = mod_CO.plot_map(
-                v = v_channels[i],
-                ax = axes[k + int(include_observation), int(include_continuum) + i],
-                colorbar = False,
-                no_xlabel = no_xlabel,
-                no_ylabel = True,
-                limits = limits,
-                Tb = c_plot_temp,
-                Delta_v = delta_v,
-                fmax = v_f_max,
-                fmin = v_f_min,
-                plot_stars = plot_sinks
-            )
+            # Plot the CO velocity channel
+            if include_observation and match_observation:
+                vel_im = mod_CO.plot_map(
+                    v = v_channels[i],
+                    ax = axes[k + 1, int(include_continuum) + i],
+                    colorbar = False,
+                    bmaj = CO.bmaj,
+                    bmin = CO.bmin,
+                    bpa = CO.bpa,
+                    no_xlabel = no_xlabel,
+                    no_ylabel = True,
+                    limits = limits,
+                    Tb = c_plot_temp,
+                    Delta_v = delta_v,
+                    fmax = v_f_max,
+                    fmin = v_f_min,
+                    plot_stars = plot_sinks
+                )
 
-        # Plot the circle where the planet is expected to be
-        if p_masses[k] != 0 and plot_sinks:
-            circle = CreateCircle()
-            axes[k + int(include_observation), int(include_continuum) + i].add_artist(circle)
+            # If no observational data to base scales on
+            else:
+                vel_im = mod_CO.plot_map(
+                    v = v_channels[i],
+                    ax = axes[k + int(include_observation), int(include_continuum) + i],
+                    colorbar = False,
+                    no_xlabel = no_xlabel,
+                    no_ylabel = True,
+                    limits = limits,
+                    Tb = c_plot_temp,
+                    Delta_v = delta_v,
+                    fmax = v_f_max,
+                    fmin = v_f_min,
+                    plot_stars = plot_sinks
+                )
 
-        # Add in a colorbar
-        if show_colorbar:
-            colorbar2(vel_im)
+            # Plot the circle where the planet is expected to be
+            if p_masses[k] != 0 and plot_sinks:
+                circle = CreateCircle()
+                axes[k + int(include_observation), int(include_continuum) + i].add_artist(circle)
+
+            # Add in a colorbar
+            if show_colorbar:
+                colorbar2(vel_im)
 
 #------------------------------#
 
