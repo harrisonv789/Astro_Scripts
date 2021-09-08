@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-from modules import params
+# Include all relevant packages and modules
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
@@ -15,11 +15,31 @@ from modules.params.get_param import Params
 params = Params(len(sys.argv) > 1 and sys.argv[1].lower() == "-defaults")
 
 # Directory paths
-directory = params.ask("Directory", "../Output/Soft/Migration/")
-filename = directory + params.ask("Filename", "migration")
+directory = params.ask("Directory", "../Output/New_Soft/Migration/")
+
+# Number of files to use
+starts = ["1", "2", "3", "5", "7", "10"]
+file_count = params.ask("Number of Files", len(starts))
+
+# Loop through the number of files
+del starts[file_count:]
+for file_idx in range(file_count):
+	if file_idx < len(starts):
+		starts[file_idx] = params.ask("File Name [%d]" % file_idx, starts[file_idx])
+	else:
+		starts.append(params.ask("File Name [%d]" % file_idx, "maxvals"))
+
+# Whether to plot all start points
+plot_startpoints = params.ask("Plot All Start Points", False)
+
+# Whether to plot all end points
+plot_endpoints = params.ask("Plot All End Points", True)
 
 # Target radius line
 target_radius = params.ask("Target Radius (AU)", 117.0)
+
+# Minimum Plot Y-Axis
+min_yaxis = params.ask("Minimum Y-Axis (AU)", 60)
 
 # Units of body mass
 planet_units = params.ask("Units", "$M_{jup}$")
@@ -27,19 +47,31 @@ planet_units = params.ask("Units", "$M_{jup}$")
 # Graph variables
 title = params.ask("Title", "Planet Semi-Major Axis vs Time")
 
+# The name of the file
+filename = directory + params.ask("Filename", "migration")
 
 #------------------------------#
 
 
+
+# Fix any variables if required
+if directory[-1] != "/":
+	directory += "/"
+
+
 # The list of all data files - AU distances
-starts = ["5_hard_0.1", "5_hard_0.01", "5_soft_0.1", "5_soft_0.01"]
-colors = ["#880000", "#FF0000", "#004488", "#0088FF"]
+colors = []
 
 data = {}
 
 # Create the list of data
 for start in starts:
-	data[start] = np.loadtxt(directory + "{}_maxvals.out".format(start))
+	# Attempt to get the data
+	try:
+		data[start] = np.loadtxt(directory + "{}.out".format(start))
+	except:
+		print("Missing data: %s%s.out" % (directory, start))
+		starts.remove(start)
 
 # Create the plot
 fig, ax = plt.subplots(figsize=(12, 6))
@@ -68,14 +100,16 @@ for idx, start in enumerate(starts):
 
 	
 
-	# Plot start points excluding one
-	if idx == 1:
+	# Plot only one start point (if flagged)
+	if idx == 0 or plot_startpoints:
 		ax.text(d[0,0], d[0,r_idx],'  {:.1f} AU'.format(d[0,r_idx]))
+
 	ax.plot(d[0,0], d[0,r_idx], 'o', color='black')
 
-	# Plot end points excluding one
-	if idx != 1:
-		ax.text(d[min_idx - 1,0], d[min_idx - 1, r_idx],'  {:.1f} AU'.format(d[-1,r_idx]))
+	# Plot end points excluding one (if flagged)
+	if idx == 0 or plot_endpoints:
+		ax.text(d[min_idx - 1,0], d[min_idx - 1, r_idx],'  {:.1f} AU'.format(d[min_idx - 1,r_idx]))
+	
 	ax.plot(d[min_idx - 1,0], d[min_idx - 1, r_idx], 'o', color='black')
 
 
@@ -86,7 +120,7 @@ ax.plot(x, y, label='Target Radius: %s AU' % str(target_radius), color='black', 
 
 
 # Set the limits
-ax.set_ylim([60, np.max(data[starts[-1]][:,r_idx]) * 1.1])
+ax.set_ylim([min_yaxis, np.max(data[starts[-1]][:,r_idx]) * 1.1])
 ax.set_xlim([0, np.max(data[starts[-1]][:min_idx,0]) * 1.1])
 ax.set_ylabel('Orbitial Radius (AU)', fontsize=14)
 ax.set_xlabel('Simulation Time (Myr)', fontsize=14)
