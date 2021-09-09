@@ -18,7 +18,7 @@ params = Params(sys.argv)
 
 # Directory paths
 root_directory = params.ask("Root Directory", "../Output/Scattered/New/")
-sub_directory = params.ask("Folder", "Gas")
+sub_directory = params.ask("Folder", "Gas_0")
 
 # Set the type (Qphi or Uphi)
 image_type = params.ask("Type", "PI", ["PI", "Qphi", "Uphi"])
@@ -37,7 +37,7 @@ image_vmax = params.ask("Max Flux", 1e-18)
 image_plotstars = params.ask("Plot Stars", True, [True, False])
 
 # Get the plot name
-filename = root_directory + sub_directory + params.ask("Filename", "scattered.pdf")
+filename = root_directory + sub_directory + "_" + params.ask("Filename", "scattered.pdf")
 
 # Add a new line
 print("\n---\n")

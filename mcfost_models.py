@@ -33,7 +33,7 @@ mod_dir_basename = dir
 
 # Name of the output PDF file
 #filename = "plots/Report{}.pdf".format(name)
-filename = "{}.pdf".format(name)
+filename = "mcfost.pdf".format(name)
 #------------------------------#
 
 
@@ -124,7 +124,7 @@ v_f_max = 60
 # The minimum and maximum flux value for the pixels on the continuum images
 # These will scale the continuum
 c_f_min = 2
-c_f_max = 60
+c_f_max = 30
 
 # The continuum pixel addition
 # This makes the continuum darker the larger the value is
