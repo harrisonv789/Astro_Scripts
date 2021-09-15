@@ -35,7 +35,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
         if [ -d $DIRECTORY/data_$WAVELENGH/RT.fits.gz ]
         then
 
-            echo "MCFOST Completed File $FILE"
+            echo "\033[0;32 MCFOST Completed File $FILE \033[0m"
 
             # Change the file name
             mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
@@ -43,7 +43,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
         # Otherwise, output failed file  
         else
 
-            echo "MCFOST Failed File $FILE"
+            echo "\033[0;31 MCFOST Failed File $FILE \033[0m"
             rm -r $DIRECTORY/data_*
 
         fi
@@ -51,7 +51,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
     # If the file already exists
     else
         
-        echo "File $FILE Already Converted"
+        echo "\033[1;33 File $FILE Already Converted. \033[0m"
 
     fi
 
@@ -60,4 +60,4 @@ for FILE in $DIRECTORY/$PREFIX*; do
 
 done
 
-echo "Completed all Files."
+echo "\033[0;31 Completed all Files. \033[0m"
