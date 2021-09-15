@@ -28,6 +28,8 @@ for FILE in $DIRECTORY/$PREFIX*; do
     if [ ! -d $DIRECTORY/FITS_$NUMBER ]
     then
 
+        echo "\033[0;36 Attempting to Convert $FILE \033[0m"
+
         # Create the command
         $MCFOST_COM $DIRECTORY/$PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH -root_dir $DIRECTORY;
 
