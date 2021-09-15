@@ -36,6 +36,9 @@ image_vmax = params.ask("Max Flux", 1e-18)
 # Add stars or not
 image_plotstars = params.ask("Plot Stars", True, [True, False])
 
+# Whether to show the scattered light image to the screen or not
+image_show = params.ask("Show Image", True, [True, False])
+
 # Get the plot name
 filename = root_directory + sub_directory + "_" + params.ask("Filename", "scattered.pdf")
 
@@ -78,4 +81,5 @@ image = mod_cont.plot(
 plt.savefig(filename, bbox_inches='tight')
 
 # Show the graph in an xw display window
-plt.show()
+if image_show:
+    plt.show()
