@@ -26,7 +26,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
     then
 
     # Create the command
-    $MCFOST_COM $PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH;
+    $MCFOST_COM $DIRECTORY/$PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH -root_dir $DIRECTORY;
 
     # Change the file name
     mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
@@ -34,7 +34,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
     fi
 
     # Increment the file
-    $NUMBER=$NUMBER + 1
+    ((NUMBER=NUMBER+1))
 
 done
 
