@@ -18,6 +18,12 @@ cd casa_cube
 python3 setup.py install
 ```
 
+If running on another computer (such as a SuperComputer) without super user access (**sudo**), then install the script using the following line:
+```
+python3 setyp.py install --user
+```
+
+
 Additionally, to run the radiative transfer code, **MCFOST**, we can do this through Python as well. This can be done by installing Christophe Pinté's repository for this module:
 
 
@@ -27,4 +33,11 @@ cd modules
 git clone https://github.com/cpinte/pymcfost.git
 cd pymcfost
 python3 setup.py install
+```
+
+Additionally, there are some python packages that must be installed:
+
+```
+pip3 install matplotlib
+pip3 install numpy
 ```
