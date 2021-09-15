@@ -13,20 +13,23 @@ SCATTERING=-only_scatt
 PREFIX=IM_Lup_0
 
 # Remove all previous data files
-#rm -r data_*
+if [ -d $DIRECTORY/data_$WAVELENGTH ]
+then
+    rm -r $DIRECTORY/data_*;
+fi
 
-# Stores the count
+# Stores the counter
 NUMBER=0
 
 # Loop through every file
 for FILE in $DIRECTORY/$PREFIX*; do
 
     # Check if the file already exists (and skips)
-    if [ ! -d $DIRECTORY/FITS_$NUMBER ] 
+    if [ ! -d $DIRECTORY/FITS_$NUMBER ]
     then
 
     # Create the command
-    $MCFOST_COM $PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH;
+    $MCFOST_COM $DIRECTORY/$PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH -root_dir $DI$
 
     # Change the file name
     mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
@@ -34,7 +37,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
     fi
 
     # Increment the file
-    $NUMBER=$NUMBER + 1
+    ((NUMBER=NUMBER+1))
 
 done
 
