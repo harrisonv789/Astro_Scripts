@@ -28,7 +28,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
     if [ ! -d $DIRECTORY/FITS_$NUMBER ]
     then
 
-        echo "\033[0;36 Attempting to Convert $FILE \033[0m"
+        echo -e "\033[0;36 Attempting to Convert $FILE \033[0m"
 
         # Create the command
         $MCFOST_COM $DIRECTORY/$PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH -root_dir $DIRECTORY;
@@ -37,7 +37,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
         if [ -d $DIRECTORY/data_$WAVELENGH/RT.fits.gz ]
         then
 
-            echo "\033[0;32 MCFOST Completed File $FILE \033[0m"
+            echo -e "\033[0;32 MCFOST Completed File $FILE \033[0m"
 
             # Change the file name
             mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
@@ -45,7 +45,7 @@ for FILE in $DIRECTORY/$PREFIX*; do
         # Otherwise, output failed file  
         else
 
-            echo "\033[0;31 MCFOST Failed File $FILE \033[0m"
+            echo -e "\033[0;31 MCFOST Failed File $FILE \033[0m"
             rm -r $DIRECTORY/data_*
 
         fi
@@ -62,4 +62,4 @@ for FILE in $DIRECTORY/$PREFIX*; do
 
 done
 
-echo "\033[0;31 Completed all Files. \033[0m"
+echo -e "\033[0;31 Completed all Files. \033[0m"

@@ -19,7 +19,7 @@ echo Directory is `pwd`
 ulimit -s unlimited
 export OMP_SCHEDULE="dynamic"
 export OMP_NUM_THREADS=16
-export OMP_STACKSIZE=1024m
+export OMP_STACKSIZE=2048m
 
 echo "Starting MCFOST Loop"
 ./mcfost_loop.sh
