@@ -31,8 +31,25 @@ for FILE in $DIRECTORY/$PREFIX*; do
     # Create the command
     $MCFOST_COM $DIRECTORY/$PARA -phantom $FILE -planet_az $PLANET_AZ $SCATTERING -img $WAVELENGTH -root_dir $DIRECTORY;
 
-    # Change the file name
-    mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
+    # Make a check to see if the file is complete
+    if [ -d $DIRECTORY/data_$WAVELENGH/RT.fits.gz ]
+    then
+
+        echo "MCFOST Completed File $FILE"
+
+        # Change the file name
+        mv $DIRECTORY/data_$WAVELENGTH $DIRECTORY/FITS_$NUMBER;
+        
+    else
+
+        echo "MCFOST Failed File $FILE"
+        rm -r $DIRECTORY/data_*
+
+    fi
+
+    else
+    
+    echo "File $FILE Already Converted"
 
     fi
 
