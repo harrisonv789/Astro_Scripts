@@ -13,16 +13,19 @@ SCATTERING=-only_scatt
 PREFIX=IM_Lup_0
 
 # Remove all previous data files
-#rm -r data_*
+if [ -d $DIRECTORY/data_$WAVELENGTH ]
+then
+    rm -r $DIRECTORY/data_*;
+fi
 
-# Stores the count
+# Stores the counter
 NUMBER=0
 
 # Loop through every file
 for FILE in $DIRECTORY/$PREFIX*; do
 
     # Check if the file already exists (and skips)
-    if [ ! -d $DIRECTORY/FITS_$NUMBER ] 
+    if [ ! -d $DIRECTORY/FITS_$NUMBER ]
     then
 
     # Create the command
