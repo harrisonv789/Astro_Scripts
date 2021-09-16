@@ -35,7 +35,16 @@ cd pymcfost
 python3 setup.py install
 ```
 
-Additionally, there are some python packages that must be installed:
+
+I have also developed my own parameter system. This allows for user-editing script parameters and being able to change inputs without editing the scripts. This is a new package and still a work-in-progress. All parameters can be found in the [SCRIPT].para files located in this repository.
+
+```
+cd modules
+
+git clone https://github.com/harrisonv789/params.git
+```
+
+Finally, here are some python packages that must be installed:
 
 ```
 pip3 install matplotlib
