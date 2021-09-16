@@ -6,7 +6,7 @@ from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
-from modules.params.get_param import Params
+from modules.params import Params
 
 
 #------------------------------#
@@ -16,41 +16,38 @@ from modules.params.get_param import Params
 # Look for using default flags (uses all default values)
 params = Params(sys.argv)
 
-# If the arguments greater than two and the first is the defaults, take in the filename
-if len(sys.argv) > 2 and sys.argv[1] == "-defaults":
-    sub_directory = sys.argv[2]
-else:
-    sub_directory = "Gas_0"
-
-
 # Directory paths
-root_directory = params.ask("Root Directory", "../Output/Scattered/Video/")
-sub_directory = params.ask("Folder", sub_directory)
+root_directory = params.get("root")
+sub_directory = params.get("dir")
 
 # Set the type (Qphi or Uphi)
-image_type = params.ask("Type", "PI", ["PI", "Qphi", "Uphi"])
+image_type = params.get("type")
 
 # Set the scale (log or lin)
-image_scale = params.ask("Scale", "log", ["lin", "log"])
+image_scale = params.get("scale")
 
 # Set the FWHM
-image_FWHM = params.ask("FWHM", 0.05)
+image_FWHM = params.get("fwhm")
 
 # Set the min and max
-image_vmin = params.ask("Min Flux", 1e-22)
-image_vmax = params.ask("Max Flux", 1e-18)
+image_vmin = params.get("fmin")
+image_vmax = params.get("fmax")
+
+# Map the colours to matplotlib colours
+colors = {"grey": "Greys_r", "inferno": "inferno", "viridis": "viridis", "normal": "inferno"}
+cmap = colors[params.get("cmap")]
 
 # Add stars or not
-image_plotstars = params.ask("Plot Stars", True, [True, False])
+image_plotstars = params.get("stars")
 
 # Whether to show the scattered light image to the screen or not
-image_show = params.ask("Show Image", False, [True, False])
+image_show = params.get("show")
+
+# Whether to show the scattered light image to the screen or not
+image_save= params.get("save")
 
 # Get the plot name
-filename = root_directory + sub_directory + params.ask("Filename", ".png")
-
-# Add a new line
-print("\n---\n")
+filename = root_directory + sub_directory + params.get("file")
 
 
 
@@ -76,7 +73,8 @@ image = mod_cont.plot(
     type = image_type,
     psf_FWHM=image_FWHM,
     vmin = image_vmin,
-    vmax = image_vmax
+    vmax = image_vmax,
+    cmap = cmap
 )
 
 
@@ -85,7 +83,8 @@ image = mod_cont.plot(
 #------------------------------#
 
 # Save the figure
-plt.savefig(filename, bbox_inches='tight')
+if image_save:
+    plt.savefig(filename, bbox_inches='tight')
 
 # Show the graph in an xw display window
 if image_show:

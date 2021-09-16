@@ -33,7 +33,7 @@ mod_dir_basename = dir
 
 # Name of the output PDF file
 #filename = "plots/Report{}.pdf".format(name)
-filename = "mcfost.pdf".format(name)
+filename = mod_dir_basename + "mcfost.pdf".format(name)
 #------------------------------#
 
 
@@ -83,7 +83,7 @@ s_shift = [0, 0]
 #------------------------------#
 
 # The model names
-models = ["1", "2", "3", "5"]
+models = ["1", "2", "3", "5", "7", "10"]
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0

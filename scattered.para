@@ -1,0 +1,29 @@
+# All quote lines can be ignored
+# key | name | default | flag | values
+
+
+# ------ #
+# General File Directories
+
+root  | Root Directory | ../Output/Scattered/Video/ |      |                        
+dir   | Sub Directory  | FITS_10                    |      |                        
+
+
+# ------ #
+# Image Type for Plotting
+
+type  | Image Type     | PI                         |      | PI, Qphi, Uphi         
+scale | Scale          | log                        |      | lin, log               
+fwhm  | FWHM           | 0.05                       |      |                        
+fmin  | Min Flux       | 1e-20                      |      |                        
+fmax  | Max Flux       | 1e-18                      |      |                        
+stars | Plot Stars     | False                      | flag |                        
+cmap  | Color Map      | viridis                    |      | grey, inferno, viridis 
+
+
+# ------ #
+# Save File Information
+
+show  | Show Image     | True                       | flag |                        
+save  | Save Image     | True                       | flag |                        
+file  | Filename       | .png                       |      |                        
