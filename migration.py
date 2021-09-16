@@ -4,7 +4,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sys
-from modules.params.get_param import Params
+from modules.params import Params
 
 
 #------------------------------#
@@ -15,40 +15,31 @@ from modules.params.get_param import Params
 params = Params(sys.argv)
 
 # Directory paths
-directory = params.ask("Directory", "../Output/New_Soft/Migration/")
+directory = params.get("dir")
 
 # Number of files to use
-starts = ["1", "2", "3", "5", "7", "10"]
-file_count = params.ask("Number of Files", len(starts))
-
-# Loop through the number of files
-del starts[file_count:]
-for file_idx in range(file_count):
-	if file_idx < len(starts):
-		starts[file_idx] = params.ask("File Name [%d]" % file_idx, starts[file_idx])
-	else:
-		starts.append(params.ask("File Name [%d]" % file_idx, "maxvals"))
+starts = [p.strip() for p in params.get("starts").split(",")]
 
 # Whether to plot all start points
-plot_startpoints = params.ask("Plot All Start Points", False)
+plot_startpoints = params.get("plot_start")
 
 # Whether to plot all end points
-plot_endpoints = params.ask("Plot All End Points", True)
+plot_endpoints = params.get("plot_end")
 
 # Target radius line
-target_radius = params.ask("Target Radius (AU)", 117.0)
+target_radius = params.get("radius")
 
 # Minimum Plot Y-Axis
-min_yaxis = params.ask("Minimum Y-Axis (AU)", 60)
+min_yaxis = params.get("min_y")
 
 # Units of body mass
-planet_units = params.ask("Units", "$M_{jup}$")
+planet_units = params.get("p_unit")
 
 # Graph variables
-title = params.ask("Title", "Planet Semi-Major Axis vs Time")
+title = params.get("title")
 
 # The name of the file
-filename = directory + params.ask("Filename", "migration")
+filename = directory + params.get("file")
 
 #------------------------------#
 

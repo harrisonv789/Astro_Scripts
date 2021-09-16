@@ -1,0 +1,26 @@
+# All quote lines can be ignored
+# key | name | default | flag | values
+
+
+# ------ #
+# General File Directories
+
+dir        | Root Directory      | ../Output/New_Soft/Migration/  |      |  
+
+
+# ------ #
+# Data to Use
+
+starts     | Start Files         | 1, 2, 3, 5, 7, 10              |      |  
+plot_start | Plot Start Points   | False                          | flag |  
+plot_end   | Plot End Points     | True                           | flag |  
+radius     | Target Radius (AU)  | 117.0                          |      |  
+min_y      | Minimum Y-Axis (AU) | 60                             |      |  
+p_unit     | Planet Units        | $M_{jup}$                      |      |  
+title      | Title               | Planet Semi-Major Axis vs Time |      |  
+
+
+# ------ #
+# Save File Information
+                    
+file       | Filename            | migration                      |      |  

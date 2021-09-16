@@ -15,10 +15,10 @@ dir   | Sub Directory  | FITS_10                    |      |
 type  | Image Type     | PI                         |      | PI, Qphi, Uphi         
 scale | Scale          | log                        |      | lin, log               
 fwhm  | FWHM           | 0.05                       |      |                        
-fmin  | Min Flux       | 1e-20                      |      |                        
+fmin  | Min Flux       | 1e-22                      |      |                        
 fmax  | Max Flux       | 1e-18                      |      |                        
-stars | Plot Stars     | False                      | flag |                        
-cmap  | Color Map      | viridis                    |      | grey, inferno, viridis 
+stars | Plot Stars     | True                       | flag |                        
+cmap  | Color Map      | inferno                    |      | grey, inferno, viridis 
 
 
 # ------ #
