@@ -16,9 +16,16 @@ from modules.params.get_param import Params
 # Look for using default flags (uses all default values)
 params = Params(sys.argv)
 
+# If the arguments greater than two and the first is the defaults, take in the filename
+if len(sys.argv) > 2 and sys.argv[1] == "-defaults":
+    sub_directory = sys.argv[2]
+else:
+    sub_directory = "Gas_0"
+
+
 # Directory paths
-root_directory = params.ask("Root Directory", "../Output/Scattered/New/")
-sub_directory = params.ask("Folder", "Gas_0")
+root_directory = params.ask("Root Directory", "../Output/Scattered/Video/")
+sub_directory = params.ask("Folder", sub_directory)
 
 # Set the type (Qphi or Uphi)
 image_type = params.ask("Type", "PI", ["PI", "Qphi", "Uphi"])
@@ -37,10 +44,10 @@ image_vmax = params.ask("Max Flux", 1e-18)
 image_plotstars = params.ask("Plot Stars", True, [True, False])
 
 # Whether to show the scattered light image to the screen or not
-image_show = params.ask("Show Image", True, [True, False])
+image_show = params.ask("Show Image", False, [True, False])
 
 # Get the plot name
-filename = root_directory + sub_directory + "_" + params.ask("Filename", "scattered.pdf")
+filename = root_directory + sub_directory + params.ask("Filename", ".png")
 
 # Add a new line
 print("\n---\n")

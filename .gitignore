@@ -129,4 +129,5 @@ dmypy.json
 .pyre/
 
 # MAC Files
-*.DS_STORE
+.DS_STORE
+.qout
