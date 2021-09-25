@@ -6,16 +6,12 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
-from modules.params.get_param import Params
 import sys
 
 
 #------------------------------#
 # Variables TODO
 #------------------------------#
-
-# Look for using default flags (uses all default values)
-params = Params(sys.argv)
 
 
 
@@ -83,12 +79,12 @@ s_shift = [0, 0]
 #------------------------------#
 
 # The model names
-models = ["1", "2", "3", "5", "7", "10"]
+models = ["5", "7", "10"]
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0
 # MAKE SURE THE SIZE OF THIS ARRAY IS THE SAME AS MODELS
-p_masses = [1.0, 2.0, 3.0, 5.0, 7.0, 10.0]
+p_masses = [5.0, 7.0, 10.0]
 
 # Velocity channels
 v_channels = [-0.40, -1.45, -1.80, 1.35]

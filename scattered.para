@@ -6,7 +6,7 @@
 # General File Directories
 
 root  | Root Directory | ../Output/Scattered/Video/ |      |                        
-dir   | Sub Directory  | FITS_10                    |      |                        
+dir   | Sub Directory  | FITS_0                     |      |                        
 
 
 # ------ #
@@ -14,7 +14,7 @@ dir   | Sub Directory  | FITS_10                    |      |
 
 type  | Image Type     | PI                         |      | PI, Qphi, Uphi         
 scale | Scale          | log                        |      | lin, log               
-fwhm  | FWHM           | 0.05                       |      |                        
+fwhm  | FWHM           | 0.01                       |      |                        
 fmin  | Min Flux       | 1e-22                      |      |                        
 fmax  | Max Flux       | 1e-18                      |      |                        
 stars | Plot Stars     | True                       | flag |                        
@@ -26,4 +26,4 @@ cmap  | Color Map      | inferno                    |      | grey, inferno, viri
 
 show  | Show Image     | True                       | flag |                        
 save  | Save Image     | True                       | flag |                        
-file  | Filename       | .png                       |      |                        
+file  | Filename       | .pdf                       |      |                        
