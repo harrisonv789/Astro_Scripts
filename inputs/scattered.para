@@ -6,7 +6,7 @@
 # General File Directories
 
 root  | Root Directory | ../Output/Scattered/Video/ |      |                        
-dir   | Sub Directory  | FITS_0                     |      |                        
+dir   | Sub Directory  | FITS_25                    |      |                        
 
 
 # ------ #
@@ -25,5 +25,5 @@ cmap  | Color Map      | inferno                    |      | grey, inferno, viri
 # Save File Information
 
 show  | Show Image     | True                       | flag |                        
-save  | Save Image     | True                       | flag |                        
+save  | Save Image     | 1.0                        | flag |                        
 file  | Filename       | .pdf                       |      |                        

@@ -6,30 +6,30 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
-import sys
+from modules.params import Params
 
 
 #------------------------------#
-# Variables TODO
+# Variables
 #------------------------------#
+
+# Set up the parameters
+params = Params()
 
 
 
 #------------------------------#
 # Directory Information
 #------------------------------#
-# Simulation name
-name = ""
 
 # Path to the DSHARP data
-dir = "../Output/New_Soft/MCFOST/{}/".format(name) if name != "" else "../Output/New_Soft/MCFOST/"
+dir = params.get("dir")
 
 # Model directories
 mod_dir_basename = dir
 
 # Name of the output PDF file
-#filename = "plots/Report{}.pdf".format(name)
-filename = mod_dir_basename + "mcfost.pdf".format(name)
+filename = mod_dir_basename + params.get("file")
 #------------------------------#
 
 
@@ -40,7 +40,7 @@ filename = mod_dir_basename + "mcfost.pdf".format(name)
 #------------------------------#
 
 # Include Observation Data
-include_observation = True
+include_observation = params.get("inc_obs")
 
 # Directory to Observational Data
 # Velocity CO channel must be called lines.fits.gz or lines.fits
@@ -52,7 +52,7 @@ obs_name = "DSHARP - IM Lupi"
 
 # Match Observation Scales
 # This will match the bmin, bmax and bpa from the observation
-match_observation = True
+match_observation = params.get("match")
 #------------------------------#
 
 
@@ -62,11 +62,10 @@ match_observation = True
 #------------------------------#
 
 # Star velocity factor moving away
-v_system = 4.5
+v_system = params.get("v_sys")
 
 # Location of planet
-# For simulations without a planet, use 0, 0
-p_loc = [-0.52, 0.44]
+p_loc = params.get_array("p_loc")
 
 # Location of star shift
 s_shift = [0, 0]
@@ -79,15 +78,15 @@ s_shift = [0, 0]
 #------------------------------#
 
 # The model names
-models = ["5", "7", "10"]
+models = params.get_array("models", strings = True)
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0
 # MAKE SURE THE SIZE OF THIS ARRAY IS THE SAME AS MODELS
-p_masses = [5.0, 7.0, 10.0]
+p_masses = params.get_array("p_mass")
 
 # Velocity channels
-v_channels = [-0.40, -1.45, -1.80, 1.35]
+v_channels = params.get_array("v_chan")
 #------------------------------#
 
 
@@ -97,10 +96,10 @@ v_channels = [-0.40, -1.45, -1.80, 1.35]
 #------------------------------#
 
 # Whether to plot continuum images or not
-include_continuum = True
+include_continuum = params.get("inc_cont")
 
 # Whether to plot the channels or not
-include_channels = False
+include_channels = params.get("inc_chan")
 
 # The colour mapping for the observational plot
 cmap_cont = "gist_earth"
@@ -109,18 +108,18 @@ cmap_cont = "gist_earth"
 c_plot_temp = True
 
 # Whether to plot the location of sinks on the data or not
-plot_sinks = True
+plot_sinks = params.get("plot_sinks")
 
 # The minimum and maximum flux value for the pixels for velocity images
 # These will scale the velocity channels
-v_f_min = 8
-v_f_max = 60
+v_f_min = params.get("v_min")
+v_f_max = params.get("v_max")
 
 # The f_min value for the pixels in the continuum image
 # The minimum and maximum flux value for the pixels on the continuum images
 # These will scale the continuum
-c_f_min = 2
-c_f_max = 30
+c_f_min = params.get("c_min")
+c_f_max = params.get("c_max")
 
 # The continuum pixel addition
 # This makes the continuum darker the larger the value is
@@ -129,7 +128,7 @@ c_mod_pix_add = 0
 
 # The continuum colour scale
 # Options are 'log' or 'lin'
-c_color_scale = 'lin'
+c_color_scale = params.get("c_scale")
 
 # The limits of the graph
 # (max_x, min_x, min_y, max_y)

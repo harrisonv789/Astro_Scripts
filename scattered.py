@@ -14,7 +14,7 @@ from modules.params import Params
 #------------------------------#
 
 # Look for using default flags (uses all default values)
-params = Params(sys.argv)
+params = Params()
 
 # Directory paths
 root_directory = params.get("root")
