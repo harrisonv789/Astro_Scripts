@@ -2,6 +2,7 @@
 # General File Directories
 
 dir        | Root Directory         | ../Output/Fluffy/MCFOST/  |      |          
+name       | Simulation Name        | DustMass                  |      |          
 
 
 # ------ #
@@ -15,14 +16,14 @@ match      | Match Observation      | True                      | flag |
 # System Variables
 
 v_sys      | Star Velocity          | 4.5                       |      |          
-p_loc      | Planet Location        | -0.52, 0.44               |      |          
+p_loc      | Planet Location        | -0.48, 0.30               |      |          
 p_mass     | Planet Masses          | 3.0, 3.0, 3.0             |      |          
 
 
 # ------ #
 # Model Variables
 
-models     | Models                 | 1, 0.5, 0.1               |      |          
+models     | Models                 | 2.50e-3, 1.75e-3, 1.00e-3 |      |          
 v_chan     | Velocity Channels      | -0.40, -1.45, -1.80, 1.35 |      |          
 
 

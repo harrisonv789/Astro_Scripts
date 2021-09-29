@@ -25,8 +25,11 @@ params = Params()
 # Path to the DSHARP data
 dir = params.get("dir")
 
+# Name of the simulation
+name = params.get("name")
+
 # Model directories
-mod_dir_basename = dir
+mod_dir_basename = dir if name == "" else dir + name + "/"
 
 # Name of the output PDF file
 filename = mod_dir_basename + params.get("file")
@@ -395,7 +398,7 @@ for k, mod in enumerate(models):
             )
 
         # Label the model on the continuum plot
-        if p_masses[k] == 0:
+        if p_masses[k] == 0 or True:
             mod_label = models[k] + " Model"
         else:
             mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
