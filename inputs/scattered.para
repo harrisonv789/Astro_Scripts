@@ -5,25 +5,27 @@
 # ------ #
 # General File Directories
 
-root  | Root Directory | ../Output/Scattered/Video/ |      |                        
-dir   | Sub Directory  | FITS_25                    |      |                        
+root     | Root Directory | ../Output/Scattered_New/ |      |                        
+dir      | Sub Directory  | FITS_15                  |      |                        
+dir_casa | CASA Directory | SPHERE                   |      |                        
 
 
 # ------ #
 # Image Type for Plotting
 
-type  | Image Type     | PI                         |      | PI, Qphi, Uphi         
-scale | Scale          | log                        |      | lin, log               
-fwhm  | FWHM           | 0.01                       |      |                        
-fmin  | Min Flux       | 1e-22                      |      |                        
-fmax  | Max Flux       | 1e-18                      |      |                        
-stars | Plot Stars     | True                       | flag |                        
-cmap  | Color Map      | inferno                    |      | grey, inferno, viridis 
+casa     | Use CASA Cube  | False                    | flag |                        
+type     | Image Type     | PI                       |      | PI, Qphi, Uphi         
+scale    | Scale          | log                      |      | lin, log               
+fwhm     | FWHM           | 0.01                     |      |                        
+fmin     | Min Flux       | 1e-22                    |      |                        
+fmax     | Max Flux       | 1e-18                    |      |                        
+stars    | Plot Stars     | True                     | flag |                        
+cmap     | Color Map      | inferno                  |      | grey, inferno, viridis 
 
 
 # ------ #
 # Save File Information
 
-show  | Show Image     | True                       | flag |                        
-save  | Save Image     | 1.0                        | flag |                        
-file  | Filename       | .pdf                       |      |                        
+show     | Show Image     | True                     | flag |                        
+save     | Save Image     | 1.0                      | flag |                        
+file     | Filename       | .pdf                     |      |                        

@@ -20,6 +20,10 @@ params = Params()
 root_directory = params.get("root")
 sub_directory = params.get("dir")
 
+# Get whether to use CASA cube or not
+use_casa = params.get("casa")
+if use_casa: sub_directory = params.get("dir_casa")
+
 # Set the type (Qphi or Uphi)
 image_type = params.get("type")
 
@@ -55,27 +59,51 @@ filename = root_directory + sub_directory + params.get("file")
 # Creating Plots
 #------------------------------#
 
-# Import PyMCFOST
+# Import PyMCFOST and CASA
 import pymcfost as mcfost
+from modules.casa_cube import casa_cube as casa
 
 # Create the axes
 fig, axes = plt.subplots()
 
-# Get the MCFOST data
-mod_cont = mcfost.Image(root_directory + sub_directory)
 
-# Create the image
-image = mod_cont.plot(
-    ax = axes,
-    colorbar = True,
-    scale = image_scale,
-    plot_stars = image_plotstars,
-    type = image_type,
-    psf_FWHM=image_FWHM,
-    vmin = image_vmin,
-    vmax = image_vmax,
-    cmap = cmap
-)
+# If using CASA
+if use_casa:
+
+    # Get the CASA daa
+    cont =  casa.Cube(root_directory + sub_directory + "/RT.fits", only_header=False)
+
+    # Creae the image
+    image = cont.plot(
+        ax = axes,
+        colorbar = True,
+        color_scale = image_scale,
+        #plot_stars = image_plotstars,
+        #psf_FWHM=image_FWHM,
+        fmin = image_vmin * 1e16,
+        fmax = image_vmax * 1e16,
+        cmap = cmap,
+    )
+
+
+# Otherwise, if using PyMCFOST
+else:
+
+    # Get the MCFOST data
+    mod_cont = mcfost.Image(root_directory + sub_directory)
+
+    # Create the image
+    image = mod_cont.plot(
+        ax = axes,
+        colorbar = True,
+        scale = image_scale,
+        plot_stars = image_plotstars,
+        type = image_type,
+        psf_FWHM=image_FWHM,
+        vmin = image_vmin,
+        vmax = image_vmax,
+        cmap = cmap
+    )
 
 
 #------------------------------#
