@@ -6,7 +6,7 @@
 # General File Directories
 
 root     | Root Directory | ../Output/Scattered_New/ |      |                        
-dir      | Sub Directory  | FITS_15                  |      |                        
+dir      | Sub Directory  | FITS_27                  |      |                        
 dir_casa | CASA Directory | SPHERE                   |      |                        
 
 

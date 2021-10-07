@@ -71,15 +71,13 @@ fig, axes = plt.subplots()
 if use_casa:
 
     # Get the CASA daa
-    cont =  casa.Cube(root_directory + sub_directory + "/RT.fits", only_header=False)
+    cont =  casa.Cube(root_directory + sub_directory + "/RT.fits")
 
     # Creae the image
     image = cont.plot(
         ax = axes,
         colorbar = True,
         color_scale = image_scale,
-        #plot_stars = image_plotstars,
-        #psf_FWHM=image_FWHM,
         fmin = image_vmin * 1e16,
         fmax = image_vmax * 1e16,
         cmap = cmap,

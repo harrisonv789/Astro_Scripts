@@ -29,7 +29,7 @@ dir = params.get("dir")
 name = params.get("name")
 
 # Model directories
-mod_dir_basename = dir if name == "" else dir + name + "/"
+mod_dir_basename = dir if name.replace(" ", "") == ""else dir + name + "/"
 
 # Name of the output PDF file
 filename = mod_dir_basename + params.get("file")
@@ -135,7 +135,8 @@ c_color_scale = params.get("c_scale")
 
 # The limits of the graph
 # (max_x, min_x, min_y, max_y)
-limits = [1.1,-1.1,-1.1,1.1]
+limits_max = params.get("limits")
+limits = [limits_max,-limits_max,-limits_max,limits_max]
 
 # Python Figure Size
 f_size = 2.0
