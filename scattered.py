@@ -18,7 +18,7 @@ params = Params()
 
 # Directory paths
 root_directory = params.get("root")
-sub_directory = params.get("dir")
+sub_directory = str(params.get("dir"))
 
 # Get whether to use CASA cube or not
 use_casa = params.get("casa")
@@ -92,6 +92,7 @@ else:
 
     # Create the image
     image = mod_cont.plot(
+        title = "Scattered Light Image - %s $M_\mathrm{jup}$" % sub_directory,
         ax = axes,
         colorbar = True,
         scale = image_scale,

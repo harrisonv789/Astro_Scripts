@@ -331,6 +331,18 @@ if include_observation:
             if plot_sinks:
                 circle = CreateCircle()
                 axes[0, int(include_continuum)  + i].add_artist(circle)
+
+            # If no previous label
+            if i == 0 and not include_continuum:
+                axes[0, int(include_continuum) + i].text(
+                    0.05,
+                    0.9,
+                    obs_name,
+                    horizontalalignment = 'left',
+                    color = "white",
+                    transform = axes[0, int(include_continuum) + i].transAxes,
+                    fontsize = 10
+                )
 #------------------------------#
 
 
@@ -399,7 +411,7 @@ for k, mod in enumerate(models):
             )
 
         # Label the model on the continuum plot
-        if p_masses[k] == 0 or True:
+        if p_masses[k] == 0:
             mod_label = models[k] + " Model"
         else:
             mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
@@ -479,6 +491,24 @@ for k, mod in enumerate(models):
             # Add in a colorbar
             if show_colorbar:
                 colorbar2(vel_im)
+
+            # If no label has been given for the other models
+            if not include_continuum and i == 0:
+                # Label the model on the continuum plot
+                if p_masses[k] == 0:
+                    mod_label = models[k] + " Model"
+                else:
+                    mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
+                
+                axes[k + int(include_observation), int(include_continuum) + i].text(
+                    0.05,
+                    0.9,
+                    mod_label,
+                    horizontalalignment = 'left',
+                    color = "white",
+                    transform = axes[k + int(include_observation), int(include_continuum) + i].transAxes,
+                    fontsize = 10
+                )
 
 #------------------------------#
 
