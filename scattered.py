@@ -38,7 +38,7 @@ image_vmin = params.get("fmin")
 image_vmax = params.get("fmax")
 
 # Map the colours to matplotlib colours
-colors = {"grey": "Greys_r", "inferno": "inferno", "viridis": "viridis", "normal": "inferno"}
+colors = {"grey": "Greys_r", "inferno": "inferno", "viridis": "viridis", "normal": "inferno", "sepia": "copper"}
 cmap = colors[params.get("cmap")]
 
 # Add stars or not

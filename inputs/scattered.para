@@ -5,27 +5,27 @@
 # ------ #
 # General File Directories
 
-root     | Root Directory | ../Output/S2_Final/Scattered/ |      |                        
-dir      | Sub Directory  | 3                             |      |                        
-dir_casa | CASA Directory | SPHERE                        |      |                        
+root     | Root Directory | ../Output/S2_Final/Scattered/ |      |                               
+dir      | Sub Directory  | 3                             |      |                               
+dir_casa | CASA Directory | SPHERE                        |      |                               
 
 
 # ------ #
 # Image Type for Plotting
 
-casa     | Use CASA Cube  | False                         | flag |                        
-type     | Image Type     | PI                            |      | PI, Qphi, Uphi         
-scale    | Scale          | log                           |      | lin, log               
-fwhm     | FWHM           | 0.01                          |      |                        
-fmin     | Min Flux       | 1e-22                         |      |                        
-fmax     | Max Flux       | 1e-18                         |      |                        
-stars    | Plot Stars     | True                          | flag |                        
-cmap     | Color Map      | inferno                       |      | grey, inferno, viridis 
+casa     | Use CASA Cube  | False                         | flag |                               
+type     | Image Type     | PI                            |      | PI, Qphi, Uphi                
+scale    | Scale          | log                           |      | lin, log                      
+fwhm     | FWHM           | 0.01                          |      |                               
+fmin     | Min Flux       | 1e-22                         |      |                               
+fmax     | Max Flux       | 1e-18                         |      |                               
+stars    | Plot Stars     | True                          | flag |                               
+cmap     | Color Map      | sepia                         |      | grey, inferno, viridis, sepia 
 
 
 # ------ #
 # Save File Information
 
-show     | Show Image     | True                          | flag |                        
-save     | Save Image     | True                          | flag |                        
-file     | Filename       | .pdf                          |      |                        
+show     | Show Image     | True                          | flag |                               
+save     | Save Image     | 1.0                           | flag |                               
+file     | Filename       | .pdf                          |      |                               

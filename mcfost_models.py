@@ -45,13 +45,13 @@ filename = mod_dir_basename + params.get("file")
 # Include Observation Data
 include_observation = params.get("inc_obs")
 
+# The name of the observation
+obs_name = params.get("obs_name")
+
 # Directory to Observational Data
 # Velocity CO channel must be called lines.fits.gz or lines.fits
 # Continuum data must be called RT.fits.gz or RT.fits
-dir_observation = dir + "DSHARP/"
-
-# The name of the observation
-obs_name = "DSHARP - IM Lupi"
+dir_observation = dir + obs_name + "/"
 
 # Match Observation Scales
 # This will match the bmin, bmax and bpa from the observation
