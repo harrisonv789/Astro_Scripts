@@ -75,7 +75,7 @@ from modules.casa_cube import casa_cube as casa
 fig, axes = plt.subplots(
     nrows = 1,
     ncols = len(inputs),
-    figsize = (image_size * len(inputs), image_size),
+    figsize = (image_size * len(inputs) + 2.0, image_size),
     sharex='all',
     sharey='all'
 )
@@ -110,7 +110,7 @@ else:
         # Create the image
         image = mod_cont.plot(
             title = "%s $M_\mathrm{jup}$" % data,
-            ax = axes[idx],
+            ax = axes[idx] if len(inputs) > 1 else axes,
             colorbar = idx == len(inputs) - 1,
             scale = image_scale,
             no_ylabel = idx > 0,
