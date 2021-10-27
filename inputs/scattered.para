@@ -6,7 +6,7 @@
 # General File Directories
 
 root     | Root Directory     | ../Output/S2_Final/Scattered/ |      |                               
-inputs   | Output Files List  | 1, 2, 3, 5                    |      |                               
+inputs   | Output Files List  | 5, 3, 1                       |      |                               
 dir_casa | CASA Directory     | SPHERE                        |      |                               
 
 

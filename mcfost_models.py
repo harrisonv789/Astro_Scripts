@@ -80,13 +80,16 @@ s_shift = [0, 0]
 # Model Variables
 #------------------------------#
 
+# Flag for including models
+include_models = params.get("inc_mods")
+
 # The model names
-models = params.get_array("models", strings = True)
+models = params.get_array("models", strings = True) if include_models else []
 
 # The mass of the planets (in Jupiter masses)
 # For models without planets, write 0
 # MAKE SURE THE SIZE OF THIS ARRAY IS THE SAME AS MODELS
-p_masses = params.get_array("p_mass")
+p_masses = params.get_array("p_mass") if include_models else []
 
 # Velocity channels
 v_channels = params.get_array("v_chan")
@@ -255,7 +258,7 @@ if include_observation:
     if include_continuum:
 
         # Get axis
-        axis = axes[0, 0] if include_channels else axes[0]
+        axis = axes[0, 0] if include_channels and include_models else axes[0]
 
         print("Plotting Observation Continuum")
 
@@ -313,7 +316,7 @@ if include_observation:
                 iv = iv,  
                 v0 = v_system,
                 colorbar = False,
-                ax = axes[0, int(include_continuum) + i],
+                ax = axes[0, int(include_continuum) + i] if include_models else axes[int(include_continuum) + i],
                 no_xlabel = True,
                 no_ylabel = True,
                 limits = limits,
@@ -321,7 +324,7 @@ if include_observation:
                 shift_dy = s_shift[1],
                 Tb = c_plot_temp,
                 fmax = v_f_max,
-                fmin = v_f_min
+                fmin = v_f_min,
             )
 
             if show_colorbar:
@@ -330,7 +333,10 @@ if include_observation:
             # Add a circle where the planet is expected to be
             if plot_sinks:
                 circle = CreateCircle()
-                axes[0, int(include_continuum)  + i].add_artist(circle)
+                if include_models:
+                    axes[0, int(include_continuum)  + i].add_artist(circle)
+                else:
+                    axes[int(include_continuum)  + i].add_artist(circle)
 
             # If no previous label
             if i == 0 and not include_continuum:
