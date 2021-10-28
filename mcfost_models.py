@@ -91,8 +91,12 @@ models = params.get_array("models", strings = True) if include_models else []
 # MAKE SURE THE SIZE OF THIS ARRAY IS THE SAME AS MODELS
 p_masses = params.get_array("p_mass") if include_models else []
 
+# Whether to use a moment, get the moment number
+use_moment = params.get("use_moment")
+moment = params.get("moment") if use_moment else 0
+
 # Velocity channels
-v_channels = params.get_array("v_chan")
+v_channels = params.get_array("v_chan") if not use_moment else [0]
 #------------------------------#
 
 
@@ -275,7 +279,7 @@ if include_observation:
             shift_dy = s_shift[1],
             Tb = c_plot_temp,
             fmin = c_f_min,
-            fmax = c_f_max
+            fmax = c_f_max,
         )
 
         # Show the colour bar in the plot
@@ -311,20 +315,28 @@ if include_observation:
             # Only show color bar in the last channel
             show_colorbar = i == n_channels - 1
 
+            # Get the axis
+            if len(axes) > 0 and type(axes[0]) is np.ndarray:
+                ax = axes[0, int(include_continuum) + i] if include_models else axes[int(include_continuum) + i]
+            else:
+                ax = axes[int(include_continuum) + i]
+            
+
             # Plot the velocity channel
             vel_im = CO.plot(
                 iv = iv,  
                 v0 = v_system,
                 colorbar = False,
-                ax = axes[0, int(include_continuum) + i] if include_models else axes[int(include_continuum) + i],
+                ax = ax,
                 no_xlabel = True,
                 no_ylabel = True,
                 limits = limits,
                 shift_dx = s_shift[0],
                 shift_dy = s_shift[1],
                 Tb = c_plot_temp,
-                fmax = v_f_max,
-                fmin = v_f_min,
+                fmax = v_f_max if not use_moment else None,
+                fmin = v_f_min if not use_moment else None,
+                moment = moment if use_moment else None
             )
 
             if show_colorbar:
@@ -333,20 +345,17 @@ if include_observation:
             # Add a circle where the planet is expected to be
             if plot_sinks:
                 circle = CreateCircle()
-                if include_models:
-                    axes[0, int(include_continuum)  + i].add_artist(circle)
-                else:
-                    axes[int(include_continuum)  + i].add_artist(circle)
-
+                ax.add_artist(circle)
+                
             # If no previous label
             if i == 0 and not include_continuum:
-                axes[0, int(include_continuum) + i].text(
+                ax.text(
                     0.05,
                     0.9,
                     obs_name,
                     horizontalalignment = 'left',
                     color = "white",
-                    transform = axes[0, int(include_continuum) + i].transAxes,
+                    transform = ax.transAxes,
                     fontsize = 10
                 )
 #------------------------------#
@@ -366,20 +375,23 @@ for k, mod in enumerate(models):
     print("Analysing output from {} located at:\n\t{}".format(mod, mod_dir))
 
     # Get the continuum and CO images
-    mod_cont = mcfost.Image(mod_dir)
+    if include_continuum: mod_cont = mcfost.Image(mod_dir)
     mod_CO = mcfost.Line(mod_dir)
 
     # Determine whether to display the xlabel or not
     no_xlabel = k < n_models - 1
 
     # Add pixel values to the continuum image
-    mod_cont.image += c_mod_pix_add * mod_cont.image[4,0,0,:,:]
+    if include_continuum: mod_cont.image += c_mod_pix_add * mod_cont.image[4,0,0,:,:]
 
     # If plotting the continuum
     if include_continuum:
 
-        # Get axis
-        axis = axes[k + int(include_observation), 0] if include_channels else axes[k + int(include_observation)]
+        # Get the axis
+        if len(axes) > 0 and type(axes[0]) is np.ndarray:
+            axis = axes[k + int(include_observation), 0] if include_channels else axes[k + int(include_observation)]
+        else:
+            ax = axes[k + int(include_observation)]
 
         # Plot the continuum
         if include_observation and match_observation:
@@ -413,7 +425,7 @@ for k, mod in enumerate(models):
                 Tb = c_plot_temp,
                 vmin = c_f_min,
                 vmax = c_f_max,
-                plot_stars = plot_sinks
+                plot_stars = plot_sinks,
             )
 
         # Label the model on the continuum plot
@@ -451,6 +463,12 @@ for k, mod in enumerate(models):
         # Loop through each of the channels
         for i in range(n_channels):
 
+            # Get the axis
+            if len(axes) > 0 and type(axes[0]) is np.ndarray:
+                axis = axes[k + int(include_observation), int(include_continuum) + i]
+            else:
+                axis = axes[k + int(include_observation)]
+
             # Only show color bar in the last channel
             show_colorbar = i == n_channels - 1
 
@@ -458,7 +476,7 @@ for k, mod in enumerate(models):
             if include_observation and match_observation:
                 vel_im = mod_CO.plot_map(
                     v = v_channels[i],
-                    ax = axes[k + 1, int(include_continuum) + i],
+                    ax = axis,
                     colorbar = False,
                     bmaj = CO.bmaj,
                     bmin = CO.bmin,
@@ -468,31 +486,34 @@ for k, mod in enumerate(models):
                     limits = limits,
                     Tb = c_plot_temp,
                     Delta_v = delta_v,
-                    fmax = v_f_max,
-                    fmin = v_f_min,
-                    plot_stars = plot_sinks
+                    fmax = v_f_max if not use_moment else None,
+                    fmin = v_f_min if not use_moment else None,
+                    moment = moment if use_moment else None,
+                    plot_stars = plot_sinks,
+                    
                 )
 
             # If no observational data to base scales on
             else:
                 vel_im = mod_CO.plot_map(
                     v = v_channels[i],
-                    ax = axes[k + int(include_observation), int(include_continuum) + i],
+                    ax = axis,
                     colorbar = False,
                     no_xlabel = no_xlabel,
                     no_ylabel = True,
                     limits = limits,
                     Tb = c_plot_temp,
                     Delta_v = delta_v,
-                    fmax = v_f_max,
-                    fmin = v_f_min,
-                    plot_stars = plot_sinks
+                    fmax = v_f_max if not use_moment else None,
+                    fmin = v_f_min if not use_moment else None,
+                    moment = moment if use_moment else None,
+                    plot_stars = plot_sinks,
                 )
 
             # Plot the circle where the planet is expected to be
             if p_masses[k] != 0 and plot_sinks:
                 circle = CreateCircle()
-                axes[k + int(include_observation), int(include_continuum) + i].add_artist(circle)
+                axis.add_artist(circle)
 
             # Add in a colorbar
             if show_colorbar:
@@ -506,13 +527,13 @@ for k, mod in enumerate(models):
                 else:
                     mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
                 
-                axes[k + int(include_observation), int(include_continuum) + i].text(
+                axis.text(
                     0.05,
                     0.9,
                     mod_label,
                     horizontalalignment = 'left',
                     color = "white",
-                    transform = axes[k + int(include_observation), int(include_continuum) + i].transAxes,
+                    transform = axis.transAxes,
                     fontsize = 10
                 )
 

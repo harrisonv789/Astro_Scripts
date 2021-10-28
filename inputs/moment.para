@@ -18,21 +18,21 @@ match      | Match Observation      | True                          | flag |
 
 v_sys      | Star Velocity          | 4.5                           |      |          
 p_loc      | Planet Location        | -0.48, 0.30                   |      |          
-p_mass     | Planet Masses          | 5, 3, 2, 1                    |      |          
+p_mass     | Planet Masses          | 5                             |      |          
 
 
 # ------ #
 # Model Variables
 
 inc_mods   | Include Models         | True                          | flag |          
-models     | Models                 | 5, 3, 2, 1                    |      |          
+models     | Models                 | Moment                        |      |          
 v_chan     | Velocity Channels      | -1.45 , -0.80, 0.75, 1.20     |      |          
 
 
 # ------ #
 # Plotting Variables
 
-inc_cont   | Include Continuum      | True                          | flag |          
+inc_cont   | Include Continuum      | False                         | flag |          
 inc_chan   | Include Channels       | True                          | flag |          
 plot_sinks | Plots Sinks            | True                          | flag |          
 v_min      | Velocity Flux Minimum  | 10                            |      |          
@@ -40,8 +40,8 @@ v_max      | Velocity Flux Maximum  | 60                            |      |
 c_min      | Continuum Flux Minimum | 4                             |      |          
 c_max      | Continuum Flux Maximum | 40                            |      |          
 c_scale    | Continuum Colour Scale | lin                           |      | lin, log 
-use_moment | Include Moment         | False                         | flag |          
-moment     | Moment Number          | 1                             |      |          
+use_moment | Include Moment         | True                          | flag |          
+moment     | Moment Number          | 9                             |      |          
 limits     | Limits of the Data     | 1.4                           |      |          
 
 
@@ -49,4 +49,4 @@ limits     | Limits of the Data     | 1.4                           |      |
 # ------ #
 # Save File Information
                     
-file       | Filename               | mcfost_49.pdf                 |      |          
+file       | Filename               | mcfost_moment.pdf             |      |          

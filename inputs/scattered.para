@@ -6,7 +6,7 @@
 # General File Directories
 
 root     | Root Directory     | ../Output/S2_Final/Scattered/ |      |                               
-inputs   | Output Files List  | 5, 3, 1                       |      |                               
+inputs   | Output Files List  | 5,3,2,1                       |      |                               
 dir_casa | CASA Directory     | SPHERE                        |      |                               
 
 
@@ -21,7 +21,7 @@ fmin     | Min Flux           | 1e-22                         |      |
 fmax     | Max Flux           | 1e-18                         |      |                               
 stars    | Plot Stars         | True                          | flag |                               
 limits   | Limits of the Data | 3.2                           |      |                               
-cmap     | Color Map          | sepia                         |      | grey, inferno, viridis, sepia 
+cmap     | Color Map          | grey                          |      | grey, inferno, viridis, sepia 
 
 
 # ------ #
@@ -29,4 +29,4 @@ cmap     | Color Map          | sepia                         |      | grey, inf
 
 show     | Show Image         | True                          | flag |                               
 save     | Save Image         | True                          | flag |                               
-file     | Filename           | scattered.pdf                 |      |                               
+file     | Filename           | scattered_49.pdf              |      |                               

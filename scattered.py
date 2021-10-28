@@ -4,6 +4,7 @@
 from matplotlib.patches import Circle
 from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
+from modules.colorbar_utils import colorbar
 import numpy as np
 import sys
 from modules.params import Params
@@ -111,17 +112,25 @@ else:
         image = mod_cont.plot(
             title = "%s $M_\mathrm{jup}$" % data,
             ax = axes[idx] if len(inputs) > 1 else axes,
-            colorbar = idx == len(inputs) - 1,
+            #colorbar = idx == len(inputs) - 1,
             scale = image_scale,
-            no_ylabel = idx > 0,
+            #no_ylabel = idx > 0,
             limits = limits,
             plot_stars = image_plotstars,
             type = image_type,
             psf_FWHM=image_FWHM,
             vmin = image_vmin,
             vmax = image_vmax,
-            cmap = cmap
+            cmap = cmap,
+            no_xlabel = True,
+            no_ylabel = True,
+            colorbar = True,
         )
+
+        #axes.axes.xaxis.set_visible(False)
+        #axes.axes.yaxis.set_visible(False)
+
+        
 
 
 #------------------------------#
