@@ -18,8 +18,10 @@ model = pymcfost.Line('../Output/S2_Final/Moment/')
 model.P.mol.nv = model.nv/2
 
 # Define CPUS
+'''
 num_cpu = 4 # int(os.environ['SLURM_NTASKS'])*int(os.environ['SLURM_CPUS_PER_TASK'])
 pool = Pool(num_cpu)
+'''
 
 # These arguments can be added online with a forked branch from pymcfost
 # SNR=5, 
@@ -27,7 +29,8 @@ pool = Pool(num_cpu)
 pymcfost.pseudo_CASA_simdata(model, Delta_v=Delta_v, iTrans=iTrans, bmaj=bmaj, bmin=bmin, bpa=bpa, subtract_cont=True)
 
 # Move the file from the directory
-os.remove(directory + filename)
+try: os.remove(directory + filename)
+except: pass
 shutil.move("CASA/" + filename, directory)
 os.rmdir("CASA")
 
