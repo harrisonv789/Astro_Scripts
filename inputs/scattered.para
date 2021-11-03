@@ -6,7 +6,7 @@
 # General File Directories
 
 root     | Root Directory     | ../Output/S2_Final/Scattered/ |      |                               
-inputs   | Output Files List  | 5,3,2,1                       |      |                               
+inputs   | Output Files List  | 2                             |      |                               
 dir_casa | CASA Directory     | SPHERE                        |      |                               
 
 
@@ -29,4 +29,4 @@ cmap     | Color Map          | grey                          |      | grey, inf
 
 show     | Show Image         | True                          | flag |                               
 save     | Save Image         | True                          | flag |                               
-file     | Filename           | scattered_49.pdf              |      |                               
+file     | Filename           | scattered_66.pdf              |      |                               

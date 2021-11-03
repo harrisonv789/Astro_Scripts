@@ -4,7 +4,7 @@ from matplotlib.patches import Circle
 from modules.casa_cube import casa_cube as casa
 import matplotlib.pyplot as plt
 import numpy as np
-import pymcfost as mcfost
+from modules.pymcfost import pymcfost as mcfost
 from modules.colorbar_utils import colorbar2, shift_axes
 from modules.params import Params
 
@@ -432,7 +432,7 @@ for k, mod in enumerate(models):
         if p_masses[k] == 0:
             mod_label = models[k] + " Model"
         else:
-            mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
+            mod_label = str(p_masses[k]) + ("$\mathrm{M_J}$ Model")
         
         axis.text(
             0.05,
@@ -490,7 +490,7 @@ for k, mod in enumerate(models):
                     fmin = v_f_min if not use_moment else None,
                     moment = moment if use_moment else None,
                     plot_stars = plot_sinks,
-                    
+                    vlabel_size = 8,
                 )
 
             # If no observational data to base scales on
@@ -508,6 +508,7 @@ for k, mod in enumerate(models):
                     fmin = v_f_min if not use_moment else None,
                     moment = moment if use_moment else None,
                     plot_stars = plot_sinks,
+                    vlabel_size = 8,
                 )
 
             # Plot the circle where the planet is expected to be
@@ -525,7 +526,7 @@ for k, mod in enumerate(models):
                 if p_masses[k] == 0:
                     mod_label = models[k] + " Model"
                 else:
-                    mod_label = str(p_masses[k]) + ("M$_\mathrm{jup}$ Model")
+                    mod_label = str(p_masses[k]) + ("$_\mathrm{M_J}$ Model")
                 
                 axis.text(
                     0.05,

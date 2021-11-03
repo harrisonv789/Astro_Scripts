@@ -26,7 +26,7 @@ p_mass     | Planet Masses          | 5, 3, 2, 1                    |      |
 
 inc_mods   | Include Models         | True                          | flag |          
 models     | Models                 | 5, 3, 2, 1                    |      |          
-v_chan     | Velocity Channels      | -1.50, -1.10, 0.50, 1.70      |      |          
+v_chan     | Velocity Channels      | -1.50, -0.70, 0.90, 1.70      |      |          
 
 
 # ------ #
@@ -49,4 +49,4 @@ limits     | Limits of the Data     | 1.4                           |      |
 # ------ #
 # Save File Information
                     
-file       | Filename               | mcfost_49.pdf                 |      |          
+file       | Filename               | mcfost_66.pdf                 |      |          
